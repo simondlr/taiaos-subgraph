@@ -117,7 +117,7 @@ export function handleMint(event: Transfer): void {
   // using initial mint as to create entities vs logforeclosure because v1_old doesn't do initial logforeclosure
   const from = event.params.from.toHexString();
 
-  if(from === "0x0000000000000000000000000000000000000000") {
+  if(from == "0x0000000000000000000000000000000000000000") {
     // mint event
     // will only fire 3 times
     let steward = getSteward(event.params.to.toHexString()); // first transfer in all 3 editions are to respective stewards
