@@ -1,22 +1,22 @@
-type Collector @entity {
-  id: ID! 
-  totalOwned: BigInt!
-  neolastics: [Neolastic!] @derivedFrom(field: "owner")
+type Patron @entity {
+  id: ID!
+  stewards: [PatronSteward!] @derivedFrom(field: "patron")
 }
 
-type Neolastic @entity {
+type Steward @entity {
   id: ID!
-  created: BigInt!
-  owner: Collector!
-  pricePaid: BigInt!
+  currentPatron: Patron!
+  currentPrice: BigInt!
+  currentDeposit: BigInt!
+  timeAcquired: BigInt!
+  timeLastCollected: BigInt!
+  patrons: [PatronSteward!] @derivedFrom(field: "steward")
 }
 
-type Curve @entity {
+type PatronSteward @entity {
   id: ID!
-  totalSupply: BigInt!
-  totalEverMinted: BigInt!
-  totalEverPaid: BigInt!
-  reserve: BigInt!
-  mintPrice: BigInt!
-  burnPrice: BigInt!
+  patron: Patron!
+  steward: Steward!
+  collected: BigInt!
+  timeHeld: BigInt!
 }

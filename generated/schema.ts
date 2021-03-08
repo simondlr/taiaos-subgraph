@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Collector extends Entity {
+export class Patron extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class Collector extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Collector entity without an ID");
+    assert(id !== null, "Cannot save Patron entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Collector entity with non-string ID. " +
+      "Cannot save Patron entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("Collector", id.toString(), this);
+    store.set("Patron", id.toString(), this);
   }
 
-  static load(id: string): Collector | null {
-    return store.get("Collector", id) as Collector | null;
+  static load(id: string): Patron | null {
+    return store.get("Patron", id) as Patron | null;
   }
 
   get id(): string {
@@ -42,17 +42,8 @@ export class Collector extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get totalOwned(): BigInt {
-    let value = this.get("totalOwned");
-    return value.toBigInt();
-  }
-
-  set totalOwned(value: BigInt) {
-    this.set("totalOwned", Value.fromBigInt(value));
-  }
-
-  get neolastics(): Array<string> | null {
-    let value = this.get("neolastics");
+  get stewards(): Array<string> | null {
+    let value = this.get("stewards");
     if (value === null) {
       return null;
     } else {
@@ -60,16 +51,16 @@ export class Collector extends Entity {
     }
   }
 
-  set neolastics(value: Array<string> | null) {
+  set stewards(value: Array<string> | null) {
     if (value === null) {
-      this.unset("neolastics");
+      this.unset("stewards");
     } else {
-      this.set("neolastics", Value.fromStringArray(value as Array<string>));
+      this.set("stewards", Value.fromStringArray(value as Array<string>));
     }
   }
 }
 
-export class Neolastic extends Entity {
+export class Steward extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -77,17 +68,17 @@ export class Neolastic extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Neolastic entity without an ID");
+    assert(id !== null, "Cannot save Steward entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Neolastic entity with non-string ID. " +
+      "Cannot save Steward entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("Neolastic", id.toString(), this);
+    store.set("Steward", id.toString(), this);
   }
 
-  static load(id: string): Neolastic | null {
-    return store.get("Neolastic", id) as Neolastic | null;
+  static load(id: string): Steward | null {
+    return store.get("Steward", id) as Steward | null;
   }
 
   get id(): string {
@@ -99,35 +90,70 @@ export class Neolastic extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get created(): BigInt {
-    let value = this.get("created");
-    return value.toBigInt();
-  }
-
-  set created(value: BigInt) {
-    this.set("created", Value.fromBigInt(value));
-  }
-
-  get owner(): string {
-    let value = this.get("owner");
+  get currentPatron(): string {
+    let value = this.get("currentPatron");
     return value.toString();
   }
 
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
+  set currentPatron(value: string) {
+    this.set("currentPatron", Value.fromString(value));
   }
 
-  get pricePaid(): BigInt {
-    let value = this.get("pricePaid");
+  get currentPrice(): BigInt {
+    let value = this.get("currentPrice");
     return value.toBigInt();
   }
 
-  set pricePaid(value: BigInt) {
-    this.set("pricePaid", Value.fromBigInt(value));
+  set currentPrice(value: BigInt) {
+    this.set("currentPrice", Value.fromBigInt(value));
+  }
+
+  get currentDeposit(): BigInt {
+    let value = this.get("currentDeposit");
+    return value.toBigInt();
+  }
+
+  set currentDeposit(value: BigInt) {
+    this.set("currentDeposit", Value.fromBigInt(value));
+  }
+
+  get timeAcquired(): BigInt {
+    let value = this.get("timeAcquired");
+    return value.toBigInt();
+  }
+
+  set timeAcquired(value: BigInt) {
+    this.set("timeAcquired", Value.fromBigInt(value));
+  }
+
+  get timeLastCollected(): BigInt {
+    let value = this.get("timeLastCollected");
+    return value.toBigInt();
+  }
+
+  set timeLastCollected(value: BigInt) {
+    this.set("timeLastCollected", Value.fromBigInt(value));
+  }
+
+  get patrons(): Array<string> | null {
+    let value = this.get("patrons");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set patrons(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("patrons");
+    } else {
+      this.set("patrons", Value.fromStringArray(value as Array<string>));
+    }
   }
 }
 
-export class Curve extends Entity {
+export class PatronSteward extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -135,17 +161,17 @@ export class Curve extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Curve entity without an ID");
+    assert(id !== null, "Cannot save PatronSteward entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Curve entity with non-string ID. " +
+      "Cannot save PatronSteward entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("Curve", id.toString(), this);
+    store.set("PatronSteward", id.toString(), this);
   }
 
-  static load(id: string): Curve | null {
-    return store.get("Curve", id) as Curve | null;
+  static load(id: string): PatronSteward | null {
+    return store.get("PatronSteward", id) as PatronSteward | null;
   }
 
   get id(): string {
@@ -157,57 +183,39 @@ export class Curve extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get totalSupply(): BigInt {
-    let value = this.get("totalSupply");
+  get patron(): string {
+    let value = this.get("patron");
+    return value.toString();
+  }
+
+  set patron(value: string) {
+    this.set("patron", Value.fromString(value));
+  }
+
+  get steward(): string {
+    let value = this.get("steward");
+    return value.toString();
+  }
+
+  set steward(value: string) {
+    this.set("steward", Value.fromString(value));
+  }
+
+  get collected(): BigInt {
+    let value = this.get("collected");
     return value.toBigInt();
   }
 
-  set totalSupply(value: BigInt) {
-    this.set("totalSupply", Value.fromBigInt(value));
+  set collected(value: BigInt) {
+    this.set("collected", Value.fromBigInt(value));
   }
 
-  get totalEverMinted(): BigInt {
-    let value = this.get("totalEverMinted");
+  get timeHeld(): BigInt {
+    let value = this.get("timeHeld");
     return value.toBigInt();
   }
 
-  set totalEverMinted(value: BigInt) {
-    this.set("totalEverMinted", Value.fromBigInt(value));
-  }
-
-  get totalEverPaid(): BigInt {
-    let value = this.get("totalEverPaid");
-    return value.toBigInt();
-  }
-
-  set totalEverPaid(value: BigInt) {
-    this.set("totalEverPaid", Value.fromBigInt(value));
-  }
-
-  get reserve(): BigInt {
-    let value = this.get("reserve");
-    return value.toBigInt();
-  }
-
-  set reserve(value: BigInt) {
-    this.set("reserve", Value.fromBigInt(value));
-  }
-
-  get mintPrice(): BigInt {
-    let value = this.get("mintPrice");
-    return value.toBigInt();
-  }
-
-  set mintPrice(value: BigInt) {
-    this.set("mintPrice", Value.fromBigInt(value));
-  }
-
-  get burnPrice(): BigInt {
-    let value = this.get("burnPrice");
-    return value.toBigInt();
-  }
-
-  set burnPrice(value: BigInt) {
-    this.set("burnPrice", Value.fromBigInt(value));
+  set timeHeld(value: BigInt) {
+    this.set("timeHeld", Value.fromBigInt(value));
   }
 }
