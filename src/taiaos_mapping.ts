@@ -10,6 +10,8 @@ export function getSteward(stewardAddress: string): Steward {
     steward = new Steward(stewardAddress);
     steward.currentPatron = stewardAddress; // on mint, the steward is the first patron
     steward.currentDeposit = new BigInt(0);
+    steward.currentPrice = new BigInt(0);
+    steward.timeAcquired = new BigInt(0);
     steward.timeLastCollected = new BigInt(0);
   }
 
@@ -42,7 +44,7 @@ export function getPatronSteward(patron: string, steward: string): PatronSteward
 }
 
 // event LogCollection(uint256 indexed collected);
-export function handleCollect(event: LogCollection): void {
+export function handleCollection(event: LogCollection): void {
   // happens on collectpatronage 
   // do a manual call to deposit()
   let stewardAddress = event.address.toHexString(); // which steward did a collection?
@@ -80,11 +82,13 @@ export function handlePriceChange(event: LogPriceChange): void {
 export function handleBuy(event: LogBuy): void {
 
   let steward = getSteward(event.address.toHexString());
+  let patron =  getPatron(event.params.owner.toHexString());
   let onchainSteward = STEWARD_V2.bind(event.address);
   // steward changes
 
   // do a manual call to deposit()
   steward.currentPrice = event.params.price;
+
   steward.currentPatron = event.params.owner.toHexString();
   steward.timeAcquired = event.block.timestamp;
   steward.currentDeposit = onchainSteward.deposit();
@@ -92,6 +96,7 @@ export function handleBuy(event: LogBuy): void {
   // different ps
   let ps = getPatronSteward(event.params.owner.toHexString(), event.address.toHexString());
 
+  patron.save();
   steward.save();
   ps.save();
 }

@@ -8,9 +8,8 @@ dataSources:
     name: ARTWORK_V1_RESTORED
     network: mainnet
     source:
-      address: '0x2b4fA931ADc5D6b58674230208787A3dF0bD2121'
+      address: '0xA5a7123CAaaa8BeC0d8B7FFBB0eEB78e73D5b76f'
       abi: ERC721
-      startBlock: 11815865
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -28,9 +27,8 @@ dataSources:
     name: STEWARD_V1_RESTORED 
     network: mainnet
     source:
-      address: '0xB602c0bBfaB973422B91C8dfc8302B7b47550fC0'
+      address: '0x22A35Bc1CD2Edf8BD137812A4BB9DCcE77D82b34'
       abi: STEWARD_V2
-      startBlock: 11815865
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
