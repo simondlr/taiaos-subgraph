@@ -5,6 +5,7 @@ type Patron @entity {
 
 type Steward @entity {
   id: ID!
+  previousPatron: Patron!
   currentPatron: Patron!
   currentPrice: BigInt!
   currentDeposit: BigInt!

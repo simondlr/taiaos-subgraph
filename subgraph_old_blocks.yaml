@@ -1,15 +1,15 @@
 specVersion: 0.0.2
-description: TAIAOS
+description: TAIAOS 
 repository: https://github.com/simondlr/taiaos-subgraph
 schema:
-  file: schema.graphql
+  file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: ARTWORKV1
+    name: ARTWORK_V1
     network: mainnet
     source:
-      address: "0x6d7C26F2E77d0cCc200464C8b2040c0B840b28a2"
-      abi: ERC721V1
+      address: '0x6d7C26F2E77d0cCc200464C8b2040c0B840b28a2'
+      abi: ERC721
       startBlock: 7414496
     mapping:
       kind: ethereum/events
@@ -20,18 +20,18 @@ dataSources:
         - Steward
         - PatronSteward
       abis:
-        - name: ERC721V1
-          file: ARTWORKV1/abis/ERC721V1.json
+        - name: ERC721 
+          file: ./abis/ERC721.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleMint
-      file: ARTWORKV1/ARTWORKV1.wasm
+      file: ./src/taiaos_mapping.ts
   - kind: ethereum/contract
-    name: STEWARDV1
+    name: STEWARD_V1
     network: mainnet
     source:
-      address: "0x74E6Ab057f8a9Fd9355398a17579Cd4c90aB2B66"
-      abi: STEWARDV1
+      address: '0x74E6Ab057f8a9Fd9355398a17579Cd4c90aB2B66'
+      abi: STEWARD_V2
       startBlock: 7414496
     mapping:
       kind: ethereum/events
@@ -42,25 +42,25 @@ dataSources:
         - Steward
         - PatronSteward
       abis:
-        - name: STEWARDV1
-          file: STEWARDV1/abis/STEWARDV1.json
+        - name: STEWARD_V2 
+          file: ./abis/STEWARD_V2.json
       eventHandlers:
         - event: LogBuy(indexed address,indexed uint256)
-          handler: handleBuy
+          handler: handleBuy 
         - event: LogCollection(indexed uint256)
           handler: handleCollection
         - event: LogForeclosure(indexed address)
           handler: handleForeclosure
         - event: LogPriceChange(indexed uint256)
           handler: handlePriceChange
-      file: ARTWORKV1/ARTWORKV1.wasm
+      file: ./src/taiaos_mapping.ts
   - kind: ethereum/contract
-    name: ARTWORKV2
+    name: ARTWORK_V2
     network: mainnet
     source:
-      address: "0xE51a7572323040792ba69B2DC4096e8e6B22fDD4"
-      abi: ERC721V2
-      startBlock: 7414496
+      address: '0xE51a7572323040792ba69B2DC4096e8e6B22fDD4'
+      abi: ERC721
+      startBlock: 10281881 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -70,19 +70,19 @@ dataSources:
         - Steward
         - PatronSteward
       abis:
-        - name: ERC721V2
-          file: ARTWORKV2/abis/ERC721V2.json
+        - name: ERC721 
+          file: ./abis/ERC721.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleMint
-      file: ARTWORKV2/ARTWORKV2.wasm
+      file: ./src/taiaos_mapping.ts
   - kind: ethereum/contract
-    name: STEWARDV2
+    name: STEWARD_V2
     network: mainnet
     source:
-      address: "0x595f2c4e9e3e35B0946394A714c2CD6875C04988"
-      abi: STEWARDV2
-      startBlock: 7414496
+      address: '0x595f2c4e9e3e35B0946394A714c2CD6875C04988'
+      abi: STEWARD_V2
+      startBlock: 10281881
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -92,25 +92,25 @@ dataSources:
         - Steward
         - PatronSteward
       abis:
-        - name: STEWARDV2
-          file: STEWARDV2/abis/STEWARDV2.json
+        - name: STEWARD_V2 
+          file: ./abis/STEWARD_V2.json
       eventHandlers:
         - event: LogBuy(indexed address,indexed uint256)
-          handler: handleBuy
+          handler: handleBuy 
         - event: LogCollection(indexed uint256)
           handler: handleCollection
         - event: LogForeclosure(indexed address)
           handler: handleForeclosure
         - event: LogPriceChange(indexed uint256)
           handler: handlePriceChange
-      file: ARTWORKV2/ARTWORKV2.wasm
+      file: ./src/taiaos_mapping.ts
   - kind: ethereum/contract
-    name: ARTWORKV1RESTORED
+    name: ARTWORK_V1_RESTORED
     network: mainnet
     source:
-      address: "0x2b4fA931ADc5D6b58674230208787A3dF0bD2121"
-      abi: ERC721V1RESTORED
-      startBlock: 7414496
+      address: '0x2b4fA931ADc5D6b58674230208787A3dF0bD2121'
+      abi: ERC721
+      startBlock: 11815865
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -120,19 +120,19 @@ dataSources:
         - Steward
         - PatronSteward
       abis:
-        - name: ERC721V1RESTORED
-          file: ARTWORKV1RESTORED/abis/ERC721V1RESTORED.json
+        - name: ERC721 
+          file: ./abis/ERC721.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleMint
-      file: ARTWORKV1RESTORED/ARTWORKV1RESTORED.wasm
+      file: ./src/taiaos_mapping.ts
   - kind: ethereum/contract
-    name: STEWARDV1RESTORED
+    name: STEWARD_V1_RESTORED 
     network: mainnet
     source:
-      address: "0xB602c0bBfaB973422B91C8dfc8302B7b47550fC0"
-      abi: STEWARDV1RESTORED
-      startBlock: 7414496
+      address: '0xB602c0bBfaB973422B91C8dfc8302B7b47550fC0'
+      abi: STEWARD_V2
+      startBlock: 11815865
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -142,15 +142,15 @@ dataSources:
         - Steward
         - PatronSteward
       abis:
-        - name: STEWARDV1RESTORED
-          file: STEWARDV1RESTORED/abis/STEWARDV1RESTORED.json
+        - name: STEWARD_V2 
+          file: ./abis/STEWARD_V2.json
       eventHandlers:
         - event: LogBuy(indexed address,indexed uint256)
-          handler: handleBuy
+          handler: handleBuy 
         - event: LogCollection(indexed uint256)
           handler: handleCollection
         - event: LogForeclosure(indexed address)
           handler: handleForeclosure
         - event: LogPriceChange(indexed uint256)
           handler: handlePriceChange
-      file: ARTWORKV1RESTORED/ARTWORKV1RESTORED.wasm
+      file: ./src/taiaos_mapping.ts

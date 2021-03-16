@@ -90,6 +90,15 @@ export class Steward extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get previousPatron(): string {
+    let value = this.get("previousPatron");
+    return value.toString();
+  }
+
+  set previousPatron(value: string) {
+    this.set("previousPatron", Value.fromString(value));
+  }
+
   get currentPatron(): string {
     let value = this.get("currentPatron");
     return value.toString();
