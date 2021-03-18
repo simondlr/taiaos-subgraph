@@ -21,6 +21,8 @@ export function getSteward(stewardAddress: string): Steward {
     steward.currentPrice = new BigInt(0);
     steward.timeAcquired = new BigInt(0);
     steward.timeLastCollected = new BigInt(0);
+    steward.totalCollected = new BigInt(0);
+    steward.foreclosureTime = new BigInt(0);
   }
 
   return steward as Steward 
@@ -62,6 +64,7 @@ function updateTimeHeldAndDeposit(steward: Steward, ps: PatronSteward, onchainSt
   //NOTE: reason why steward vs event address is different
   // is that the on-chain call for oldv1 will be different to where it is stored, which stewardAddress
   let deposit = onchainSteward.deposit();
+  let foreclosureTime = onchainSteward.foreclosureTime();
 
   //timeHeld[_currentOwner] = timeHeld[_currentOwner].add((timeLastCollected.sub(timeAcquired)));
   //NOTE: in the contract, this is only updated upon transfer, not on collection
@@ -75,6 +78,7 @@ function updateTimeHeldAndDeposit(steward: Steward, ps: PatronSteward, onchainSt
   ps.timeHeld = newTimeHeld;
   steward.timeLastCollected = onTLC;
   steward.currentDeposit = deposit;
+  steward.foreclosureTime = foreclosureTime;
 
   log.info('Collection: s {}, pTLC {}, onTLC {}, newTH {}', [
     steward.id.toString(),
@@ -111,6 +115,7 @@ export function handleCollection(event: LogCollection): void {
 
     updateTimeHeldAndDeposit(steward, ps, onchainSteward);
     ps.collected = ps.collected.plus(event.params.collected); // todo: this is still fault, because how do I know what
+    steward.totalCollected = steward.totalCollected.plus(event.params.collected);
 
     steward.save();
     ps.save();

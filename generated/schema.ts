@@ -144,6 +144,24 @@ export class Steward extends Entity {
     this.set("timeLastCollected", Value.fromBigInt(value));
   }
 
+  get foreclosureTime(): BigInt {
+    let value = this.get("foreclosureTime");
+    return value.toBigInt();
+  }
+
+  set foreclosureTime(value: BigInt) {
+    this.set("foreclosureTime", Value.fromBigInt(value));
+  }
+
+  get totalCollected(): BigInt {
+    let value = this.get("totalCollected");
+    return value.toBigInt();
+  }
+
+  set totalCollected(value: BigInt) {
+    this.set("totalCollected", Value.fromBigInt(value));
+  }
+
   get patrons(): Array<string> | null {
     let value = this.get("patrons");
     if (value === null) {

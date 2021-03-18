@@ -11,6 +11,8 @@ type Steward @entity {
   currentDeposit: BigInt!
   timeAcquired: BigInt!
   timeLastCollected: BigInt!
+  foreclosureTime: BigInt!
+  totalCollected: BigInt!
   patrons: [PatronSteward!] @derivedFrom(field: "steward")
 }
 
