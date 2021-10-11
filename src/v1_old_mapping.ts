@@ -148,6 +148,8 @@ export function handleBuy(event: LogBuy): void {
   steward.timeLastCollected = event.block.timestamp; // usually collection will log this, but if it is sold from zero, it needs to be reset
   // do a manual call to deposit()
   steward.currentDeposit = onchainSteward.deposit();
+  // do a manual call to foreclosureTime()
+  // steward.foreclosureTime = onchainSteward.foreclosureTime(); 
 
   // different ps
   let ps = getPatronSteward(event.params.owner.toHexString(), event.address.toHexString());
@@ -203,6 +205,7 @@ export function handleMint(event: Transfer): void {
   // it was a foreclosure event, so set previous patron
   if(event.params.to.toHexString() == "0x74e6ab057f8a9fd9355398a17579cd4c90ab2b66") {
     let steward = getSteward(stewardAddress); // set currentPatron to stewardAddress
+    steward.currentPatron = event.params.to.toHexString();
     steward.previousPatron = event.params.from.toHexString();
     steward.save();
   }
