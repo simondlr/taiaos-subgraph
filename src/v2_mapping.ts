@@ -3,6 +3,21 @@ import { LogBuy, LogCollection, LogForeclosure, LogPriceChange, STEWARDV2 as STE
 import { Transfer } from '../generated/ARTWORKV2/ERC721V2'
 import { Patron, Steward, PatronSteward } from '../generated/schema'
 
+// Note:
+/*
+Order of events fired?
+
+_collectPatronage
+- LogCollection (handleCollection)
+- Transfer (handleMint)
+- LogForeclosure ()
+
+_buy
+- Transfer (handleMint)
+- LogBuy (handleBuy)
+
+*/
+
 export function getSteward(stewardAddress: string): Steward {
   // oldv1 is merged into restored v1
   if(stewardAddress == "0x74e6ab057f8a9fd9355398a17579cd4c90ab2b66") {
@@ -64,7 +79,12 @@ function updateTimeHeldAndDeposit(steward: Steward, ps: PatronSteward, onchainSt
   //NOTE: reason why steward vs event address is different
   // is that the on-chain call for oldv1 will be different to where it is stored, which stewardAddress
   let deposit = onchainSteward.deposit();
-  let foreclosureTime = onchainSteward.foreclosureTime();
+  let foreclosureTime = new BigInt(0);
+  if(onchainSteward.try_foreclosureTime().reverted == false ) {
+    foreclosureTime = onchainSteward.foreclosureTime();
+  } else {
+    foreclosureTime = BigInt.fromI64(4894893805); //make it just far into the future for now in order to fix the subgraph syncing
+  }
 
   //timeHeld[_currentOwner] = timeHeld[_currentOwner].add((timeLastCollected.sub(timeAcquired)));
   //NOTE: in the contract, this is only updated upon transfer, not on collection
@@ -149,7 +169,11 @@ export function handleBuy(event: LogBuy): void {
   // do a manual call to deposit()
   steward.currentDeposit = onchainSteward.deposit();
   // do a manual call to foreclosureTime()
-  steward.foreclosureTime = onchainSteward.foreclosureTime(); 
+  if(onchainSteward.try_foreclosureTime().reverted == false ) {
+    steward.foreclosureTime = onchainSteward.foreclosureTime();
+  } else {
+    steward.foreclosureTime = BigInt.fromI64(4894893805); //make it just far into the future for now in order to fix the subgraph syncing
+  }
 
   // different ps
   let ps = getPatronSteward(event.params.owner.toHexString(), event.address.toHexString());

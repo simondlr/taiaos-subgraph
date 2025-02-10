@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class LogBuy extends ethereum.Event {
@@ -101,6 +101,14 @@ export class STEWARDV2__patronageOwedWithTimestampResult {
     map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
+
+  getPatronageDue(): BigInt {
+    return this.value0;
+  }
+
+  getTimestamp(): BigInt {
+    return this.value1;
+  }
 }
 
 export class STEWARDV2 extends ethereum.SmartContract {
@@ -157,7 +165,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "currentCollected",
       "currentCollected():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -167,7 +175,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "currentCollected",
       "currentCollected():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -195,7 +203,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "depositAbleToWithdraw",
       "depositAbleToWithdraw():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -205,7 +213,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "depositAbleToWithdraw",
       "depositAbleToWithdraw():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -233,7 +241,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "foreclosureTime",
       "foreclosureTime():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -243,7 +251,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "foreclosureTime",
       "foreclosureTime():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -277,7 +285,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "patronageOwed",
       "patronageOwed():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -290,7 +298,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "patronageOwedRange",
       "patronageOwedRange(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_time)]
+      [ethereum.Value.fromUnsignedBigInt(_time)],
     );
 
     return result[0].toBigInt();
@@ -300,7 +308,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "patronageOwedRange",
       "patronageOwedRange(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_time)]
+      [ethereum.Value.fromUnsignedBigInt(_time)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -313,22 +321,20 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "patronageOwedWithTimestamp",
       "patronageOwedWithTimestamp():(uint256,uint256)",
-      []
+      [],
     );
 
     return new STEWARDV2__patronageOwedWithTimestampResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
-  try_patronageOwedWithTimestamp(): ethereum.CallResult<
-    STEWARDV2__patronageOwedWithTimestampResult
-  > {
+  try_patronageOwedWithTimestamp(): ethereum.CallResult<STEWARDV2__patronageOwedWithTimestampResult> {
     let result = super.tryCall(
       "patronageOwedWithTimestamp",
       "patronageOwedWithTimestamp():(uint256,uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -337,14 +343,14 @@ export class STEWARDV2 extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new STEWARDV2__patronageOwedWithTimestampResult(
         value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
   patrons(param0: Address): boolean {
     let result = super.call("patrons", "patrons(address):(bool)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBoolean();
@@ -352,7 +358,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
 
   try_patrons(param0: Address): ethereum.CallResult<boolean> {
     let result = super.tryCall("patrons", "patrons(address):(bool)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -378,7 +384,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
 
   pullFunds(param0: Address): BigInt {
     let result = super.call("pullFunds", "pullFunds(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
@@ -386,7 +392,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
 
   try_pullFunds(param0: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("pullFunds", "pullFunds(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -429,7 +435,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "snapshotV1Owner",
       "snapshotV1Owner():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -439,7 +445,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "snapshotV1Owner",
       "snapshotV1Owner():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -452,7 +458,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "snapshotV1Price",
       "snapshotV1Price():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -462,7 +468,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "snapshotV1Price",
       "snapshotV1Price():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -488,7 +494,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
 
   timeHeld(param0: Address): BigInt {
     let result = super.call("timeHeld", "timeHeld(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
@@ -496,7 +502,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
 
   try_timeHeld(param0: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("timeHeld", "timeHeld(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -509,7 +515,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.call(
       "timeLastCollected",
       "timeLastCollected():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -519,7 +525,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "timeLastCollected",
       "timeLastCollected():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -538,7 +544,7 @@ export class STEWARDV2 extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalCollected",
       "totalCollected():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

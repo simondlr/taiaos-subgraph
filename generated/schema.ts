@@ -6,10 +6,9 @@ import {
   Value,
   ValueKind,
   store,
-  Address,
   Bytes,
   BigInt,
-  BigDecimal
+  BigDecimal,
 } from "@graphprotocol/graph-ts";
 
 export class Patron extends Entity {
@@ -20,43 +19,43 @@ export class Patron extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Patron entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Patron entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Patron", id.toString(), this);
+    assert(id != null, "Cannot save Patron entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Patron must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("Patron", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Patron | null {
+    return changetype<Patron | null>(store.get_in_block("Patron", id));
   }
 
   static load(id: string): Patron | null {
-    return store.get("Patron", id) as Patron | null;
+    return changetype<Patron | null>(store.get("Patron", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
   }
 
-  get stewards(): Array<string> | null {
-    let value = this.get("stewards");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set stewards(value: Array<string> | null) {
-    if (value === null) {
-      this.unset("stewards");
-    } else {
-      this.set("stewards", Value.fromStringArray(value as Array<string>));
-    }
+  get stewards(): PatronStewardLoader {
+    return new PatronStewardLoader(
+      "Patron",
+      this.get("id")!.toString(),
+      "stewards",
+    );
   }
 }
 
@@ -68,22 +67,31 @@ export class Steward extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Steward entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Steward entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Steward", id.toString(), this);
+    assert(id != null, "Cannot save Steward entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Steward must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("Steward", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Steward | null {
+    return changetype<Steward | null>(store.get_in_block("Steward", id));
   }
 
   static load(id: string): Steward | null {
-    return store.get("Steward", id) as Steward | null;
+    return changetype<Steward | null>(store.get("Steward", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -92,7 +100,11 @@ export class Steward extends Entity {
 
   get previousPatron(): string {
     let value = this.get("previousPatron");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set previousPatron(value: string) {
@@ -101,7 +113,11 @@ export class Steward extends Entity {
 
   get currentPatron(): string {
     let value = this.get("currentPatron");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set currentPatron(value: string) {
@@ -110,7 +126,11 @@ export class Steward extends Entity {
 
   get currentPrice(): BigInt {
     let value = this.get("currentPrice");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set currentPrice(value: BigInt) {
@@ -119,7 +139,11 @@ export class Steward extends Entity {
 
   get currentDeposit(): BigInt {
     let value = this.get("currentDeposit");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set currentDeposit(value: BigInt) {
@@ -128,7 +152,11 @@ export class Steward extends Entity {
 
   get timeAcquired(): BigInt {
     let value = this.get("timeAcquired");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set timeAcquired(value: BigInt) {
@@ -137,7 +165,11 @@ export class Steward extends Entity {
 
   get timeLastCollected(): BigInt {
     let value = this.get("timeLastCollected");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set timeLastCollected(value: BigInt) {
@@ -146,7 +178,11 @@ export class Steward extends Entity {
 
   get foreclosureTime(): BigInt {
     let value = this.get("foreclosureTime");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set foreclosureTime(value: BigInt) {
@@ -155,28 +191,23 @@ export class Steward extends Entity {
 
   get totalCollected(): BigInt {
     let value = this.get("totalCollected");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set totalCollected(value: BigInt) {
     this.set("totalCollected", Value.fromBigInt(value));
   }
 
-  get patrons(): Array<string> | null {
-    let value = this.get("patrons");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set patrons(value: Array<string> | null) {
-    if (value === null) {
-      this.unset("patrons");
-    } else {
-      this.set("patrons", Value.fromStringArray(value as Array<string>));
-    }
+  get patrons(): PatronStewardLoader {
+    return new PatronStewardLoader(
+      "Steward",
+      this.get("id")!.toString(),
+      "patrons",
+    );
   }
 }
 
@@ -188,22 +219,33 @@ export class PatronSteward extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save PatronSteward entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save PatronSteward entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
+    assert(id != null, "Cannot save PatronSteward entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type PatronSteward must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("PatronSteward", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): PatronSteward | null {
+    return changetype<PatronSteward | null>(
+      store.get_in_block("PatronSteward", id),
     );
-    store.set("PatronSteward", id.toString(), this);
   }
 
   static load(id: string): PatronSteward | null {
-    return store.get("PatronSteward", id) as PatronSteward | null;
+    return changetype<PatronSteward | null>(store.get("PatronSteward", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set id(value: string) {
@@ -212,7 +254,11 @@ export class PatronSteward extends Entity {
 
   get patron(): string {
     let value = this.get("patron");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set patron(value: string) {
@@ -221,7 +267,11 @@ export class PatronSteward extends Entity {
 
   get steward(): string {
     let value = this.get("steward");
-    return value.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
   }
 
   set steward(value: string) {
@@ -230,7 +280,11 @@ export class PatronSteward extends Entity {
 
   get collected(): BigInt {
     let value = this.get("collected");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set collected(value: BigInt) {
@@ -239,10 +293,32 @@ export class PatronSteward extends Entity {
 
   get timeHeld(): BigInt {
     let value = this.get("timeHeld");
-    return value.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
   }
 
   set timeHeld(value: BigInt) {
     this.set("timeHeld", Value.fromBigInt(value));
+  }
+}
+
+export class PatronStewardLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): PatronSteward[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<PatronSteward[]>(value);
   }
 }

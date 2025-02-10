@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: TAIAOS 
 repository: https://github.com/simondlr/taiaos-subgraph
 schema:
@@ -13,7 +13,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -35,7 +35,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -63,7 +63,7 @@ dataSources:
       startBlock: 7414496 
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -85,7 +85,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -113,7 +113,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -135,7 +135,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron

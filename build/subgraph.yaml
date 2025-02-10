@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: TAIAOS
 repository: https://github.com/simondlr/taiaos-subgraph
 schema:
@@ -13,7 +13,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -21,7 +21,7 @@ dataSources:
         - PatronSteward
       abis:
         - name: ERC721V1
-          file: ARTWORKV1/abis/ERC721V1.json
+          file: ARTWORKV1/ERC721V1.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleMint
@@ -35,7 +35,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -43,7 +43,7 @@ dataSources:
         - PatronSteward
       abis:
         - name: STEWARDV1
-          file: STEWARDV1/abis/STEWARDV1.json
+          file: STEWARDV1/STEWARDV1.json
       eventHandlers:
         - event: LogBuy(indexed address,indexed uint256)
           handler: handleBuy
@@ -63,7 +63,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -71,7 +71,7 @@ dataSources:
         - PatronSteward
       abis:
         - name: ERC721V2
-          file: ARTWORKV2/abis/ERC721V2.json
+          file: ARTWORKV2/ERC721V2.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleMint
@@ -85,7 +85,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -93,7 +93,7 @@ dataSources:
         - PatronSteward
       abis:
         - name: STEWARDV2
-          file: STEWARDV2/abis/STEWARDV2.json
+          file: STEWARDV2/STEWARDV2.json
       eventHandlers:
         - event: LogBuy(indexed address,indexed uint256)
           handler: handleBuy
@@ -113,7 +113,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -121,7 +121,7 @@ dataSources:
         - PatronSteward
       abis:
         - name: ERC721V1RESTORED
-          file: ARTWORKV1RESTORED/abis/ERC721V1RESTORED.json
+          file: ARTWORKV1RESTORED/ERC721V1RESTORED.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleMint
@@ -135,7 +135,7 @@ dataSources:
       startBlock: 7414496
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Patron
@@ -143,7 +143,7 @@ dataSources:
         - PatronSteward
       abis:
         - name: STEWARDV1RESTORED
-          file: STEWARDV1RESTORED/abis/STEWARDV1RESTORED.json
+          file: STEWARDV1RESTORED/STEWARDV1RESTORED.json
       eventHandlers:
         - event: LogBuy(indexed address,indexed uint256)
           handler: handleBuy
